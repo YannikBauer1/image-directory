@@ -1,0 +1,47 @@
+{% extends 'general-template.html'  %}
+{% block content %}
+
+<h1>Image label detection</h1>
+
+<b>{{ data.results|length }}</b> images analysed
+
+
+<table>
+    <tr>
+        <th>Filename</th>
+        <th>Classifications</th>
+        <th>Image</th>
+    </tr>
+    {% for result in data.results %}
+    <tr>
+        <td>
+                {{ result[0].filename }}
+        </td>
+        <td>
+            <table>
+                <tr>
+                    <th>Label Detected</th>
+                    <th>Percentage</th> 
+                </tr>
+                {% for tuple in result[1:] %}
+                <tr>
+                    <td>
+                        {{ tuple[0] }}
+                    </td>
+                    <td>
+                        {{ tuple[1] }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </td>
+        <td>
+            <a href="https://storage.googleapis.com/{{ data.bucket_name }}/{{ result[0].filename }}">
+                <img src="https://storage.googleapis.com/{{ data.bucket_name }}/{{ result[0].filename }}" width="300" />
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

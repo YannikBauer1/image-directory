@@ -1,0 +1,37 @@
+{% extends 'general-template.html'  %}
+{% block content %}
+
+<h1>{{ data.descriptions }}</h1>
+
+{{ data.results.total_rows }} results out of {{ data.image_limit }} requested.
+
+<table>
+    <tr>
+        <th>ImageId</th>
+        <th>Classes</th>
+        <th>Image</th>
+    </tr>
+    {% for result in data.results %}
+    <tr>
+        <td>
+            <a href="/image_info?image_id={{ result[0] }}">{{ result[0] }}</a>
+        </td>
+        <td>
+            {{ result[1]|length }} / {{ data.descriptions|length }} classes.
+            <br />
+            {% for label in result[1] %}
+            <a href="/image_search?description={{ label }}">{{ label }}</a>
+            {% endfor %}
+        </td>
+        <td>
+            <a href="https://storage.googleapis.com/bdcc_open_images_dataset/images/{{ result[0] }}.jpg">
+                <img width="300"
+                    src="https://storage.googleapis.com/bdcc_open_images_dataset/images/{{ result[0] }}.jpg" />
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}
